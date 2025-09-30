@@ -1,0 +1,50 @@
+def printSolution(board):
+    for row in board:
+        print(" ".join(str(cell) for cell in row))
+    print()
+
+def isSafe(row, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+    return not (sLookup[slashCode[row][col]] or bLookup[backslashCode[row][col]] or rowLookup[row])
+
+def solveNQueensUtil(board, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+    if col == len(board):
+        return True
+
+    for row in range(len(board)):
+        if isSafe(row, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+            
+            board[row][col] = 1
+            rowLookup[row] = True
+            sLookup[slashCode[row][col]] = True
+            bLookup[backslashCode[row][col]] = True
+
+            if solveNQueensUtil(board, col + 1, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+                return True
+
+            
+            board[row][col] = 0
+            rowLookup[row] = False
+            sLookup[slashCode[row][col]] = False
+            bLookup[backslashCode[row][col]] = False
+
+    return False
+
+def solveNQueens(N):
+    board = [[0] * N for _ in range(N)]
+
+    slashCode = [[r + c for c in range(N)] for r in range(N)]
+    backslashCode = [[r - c + N - 1 for c in range(N)] for r in range(N)]
+
+    rowLookup = [False] * N
+    sLookup = [False] * (2 * N - 1)
+    bLookup = [False] * (2 * N - 1)
+
+    if solveNQueensUtil(board, 0, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+        printSolution(board)
+        return True
+    else:
+        print("No solution exists")
+        return False
+
+
+solveNQueens(4)
