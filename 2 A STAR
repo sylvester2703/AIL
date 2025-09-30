@@ -1,0 +1,52 @@
+def a_star(graph, start, goal, heuristic):
+    open_list = [start]  
+    came_from = {}      
+    g_score = {start: 0}        
+    f_score = {start: heuristic(start, goal)}  
+    while open_list:
+        current = open_list[0]
+        for node in open_list:
+            if f_score.get(node, float('inf')) < f_score.get(current, float('inf')):
+                current = node
+        if current == goal:
+            path = []
+            while current in came_from:
+                path.append(current)
+                current = came_from[current]
+            path.append(start)
+            path.reverse()
+            return path
+        open_list.remove(current)
+        for neighbor, cost in graph.get(current, []):
+            new_cost = g_score[current] + cost
+            if new_cost < g_score.get(neighbor, float('inf')):
+                came_from[neighbor] = current
+                g_score[neighbor] = new_cost
+                f_score[neighbor] = new_cost + heuristic(neighbor, goal)
+                if neighbor not in open_list:
+                    open_list.append(neighbor)
+    return None
+print("How many edges in the graph?")
+n = int(input())
+graph = {}
+print("Enter each edge as: node1 node2 cost")
+for _ in range(n):
+    u, v, c = input().split()
+    c = int(c)
+    if u not in graph:
+        graph[u] = []
+    graph[u].append((v, c))
+    if v not in graph:
+        graph[v] = []
+    graph[v].append((u, c))
+print("Enter the start node:")
+start = input().strip()
+print("Enter the goal node:")
+goal = input().strip()
+def heuristic(node, goal_node):
+    return 0
+path = a_star(graph, start, goal, heuristic)
+if path:
+    print("Path found:", path)
+else:
+    print("No path found.")
