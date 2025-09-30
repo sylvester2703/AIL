@@ -1,0 +1,59 @@
+graphdata = {}
+n = int(input("ENTER THE NUMBER OF EDGES YOU WANT THE GRAPH TO BE="))
+print("ENTER THE EDGES AS (U,V) AND TYPE ONE EDGE ON ONE LINE=")
+for _ in range(n):
+    u, v = input().split()
+    u, v = int(u), int(v)
+    if u not in graphdata:
+        graphdata[u] = []
+    if v not in graphdata:
+        graphdata[v] = []
+    graphdata[u].append(v)
+    graphdata[v].append(u)
+startvertex = int(input("ENTER THE STARTING VEXTEX FROM WHERE YOU WANT TO START FOR DFS AND BFS="))
+class Graph:
+    def __init__(self, graph):
+        self.graph = graph
+    def dfsrecursive(self, vertex, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(vertex)
+        print(vertex, end=' ')
+        for neighbor in self.graph.get(vertex, []):
+            if neighbor not in visited:
+                self.dfsrecursive(neighbor, visited)
+        return visited
+    def dfsstack(self, start):
+        visited = set()
+        stack = [start]
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                print(vertex, end=' ')
+                visited.add(vertex)
+                for neighbor in reversed(self.graph.get(vertex, [])):
+                    if neighbor not in visited:
+                        stack.append(neighbor)
+        return visited
+    def bfs(self, start):
+        visited = set()
+        queue = [start]
+        visited.add(start)
+        while queue:
+            vertex = queue.pop(0)
+            print(vertex, end=' ')
+            for neighbor in self.graph.get(vertex, []):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+        return visited
+g = Graph(graphdata)
+print("DFS RECURSIVE TRAVERSAL STARTING FROM THE GIVEN VERTEX IS=", startvertex)
+g.dfsrecursive(startvertex)
+print()
+print("DFS TRAVERSAL USING STACK FROM THE GIVEN VERTEX IS=", startvertex)
+g.dfsstack(startvertex)
+print()
+print("BFS TRAVERSAL STARTING FROM THE GIVEN VERTEX IS=", startvertex)
+g.bfs(startvertex)
+print()
