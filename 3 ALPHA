@@ -1,0 +1,87 @@
+MAX = 1000
+MIN = -1000
+def minimax(depth, node_index, is_maximizing_player, values, alpha, beta):
+  
+    if depth == 3:
+        return values[node_index]
+
+    if is_maximizing_player:
+        best = MIN 
+        for i in range(2):
+            val = minimax(depth + 1, node_index * 2 + i, False, values, alpha, beta)
+            best = max(best, val)
+            alpha = max(alpha, best) 
+            print("alpha:",alpha)
+            if beta <= alpha:
+                break
+        return best
+    else:
+        best = MAX  
+        for i in range(2):
+            val = minimax(depth + 1, node_index * 2 + i, True, values, alpha, beta)
+            best = min(best, val)
+            beta = min(beta, best)
+            print("beta:",beta)
+
+            if beta <= alpha:
+                break
+        return best
+if __name__ == "__main__":
+    values = [3, 5, 6, 9, 1, 2, 0, -1]
+    optimal_value = minimax(0, 0, True, values, MIN, MAX)
+    
+    print("The optimal value is:", optimal_value)
+
+
+"""
+MAX, MIN = 1000, -1000
+
+def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta, maxDepth):
+    # Base case: leaf node
+    if depth == maxDepth:
+        return values[nodeIndex]
+
+    if maximizingPlayer:
+        best = MIN
+        for i in range(2):
+            val = minimax(depth + 1, nodeIndex * 2 + i, False, values, alpha, beta, maxDepth)
+            best = max(best, val)
+            alpha = max(alpha, best)
+            if beta <= alpha:   # Pruning
+                break
+        return best
+    else:
+        best = MAX
+        for i in range(2):
+            val = minimax(depth + 1, nodeIndex * 2 + i, True, values, alpha, beta, maxDepth)
+            best = min(best, val)
+            beta = min(beta, best)
+            if beta <= alpha:   # Pruning
+                break
+        return best
+
+if __name__ == "__main__":
+    print("Alpha-Beta Pruning Demo")
+    print("-" * 40)
+
+    # Ask user for depth of the game tree
+    maxDepth = int(input("Enter the depth of the game tree: "))
+
+    # Number of leaf nodes = 2^depth
+    leaf_count = 2 ** maxDepth
+    print(f"\nYou must enter {leaf_count} leaf node values (space-separated):")
+
+    # Taking user input for leaf values
+    user_input = input(">>> ").strip().split()
+   
+    # Convert to integers
+    values = [int(x) for x in user_input]
+
+    # Validate input length
+    if len(values) != leaf_count:
+        print(f"Error: You must enter exactly {leaf_count} values!")
+    else:
+        print("\nLeaf Node Values:", values)
+        optimal_value = minimax(0, 0, True, values, MIN, MAX, maxDepth)
+        print("\nThe Optimal Value (using Alpha-Beta Pruning) is:", optimal_value)
+"""
