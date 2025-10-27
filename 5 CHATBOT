@@ -1,0 +1,50 @@
+def greet(bot_name, birth_year):
+print(f&quot;Hello! Welcome to SafeBank Virtual Assistant. I&#39;m {bot_name}.&quot;)
+print(f&quot;I&#39;ve been here to help you since {birth_year}. Let&#39;s get started!&quot;)
+def remind_name():
+print(&quot;Please, may I have your name?&quot;)
+name = input()
+print(f&quot;Welcome, {name}! How can I assist you today?&quot;)
+def show_menu():
+print(&quot;\n Chatbot:Please choose from the following options:&quot;)
+print(&quot; 1. How to open a bank account?&quot;)
+print(&quot; 2. What is eKYC and how to complete it?&quot;)
+print(&quot; 3. How to make an online payment?&quot;)
+print(&quot; 4. Exit&quot;)
+def provide_info(choice):
+choice = choice.strip().lower()
+if choice in [&quot;1&quot;, &quot;how to open a bank account?&quot;, &quot;open&quot;]:
+print(&quot;\n Chatbot:To open a bank account:&quot;)
+print(&quot; - Visit your nearest SafeBank branch or our website.&quot;)
+print(&quot; - Fill out the account opening form with valid ID and address proof.&quot;)
+print(&quot; - Submit your documents and complete the initial deposit.&quot;)
+print(&quot; - Your account will be activated within 2-3 business days.\n&quot;)
+elif choice in [&quot;2&quot;, &quot;what is ekyc and how to complete it?&quot;, &quot;ekyc&quot;, &quot;kyc&quot;]:
+print(&quot;\n Chatbot:About eKYC (Electronic Know Your Customer):&quot;)
+print(&quot; - eKYC is a digital process to verify your identity online.&quot;)
+print(&quot; - You will need your Aadhaar card or other valid government ID.&quot;)
+print(&quot; - Follow the steps on our mobile app or website to upload documents and complete
+biometric verification.&quot;)
+print(&quot; - eKYC allows you to open accounts and access services faster and more securely.\n&quot;)
+elif choice in [&quot;3&quot;, &quot;how to make an online payment?&quot;, &quot;payment&quot;, &quot;online&quot;]:
+print(&#39;\n Chatbot:To make an online payment:&#39;)
+print(&#39; - Log in to your SafeBank internet banking or mobile app.&#39;)
+print(&#39; - Select the &quot;Payments&quot; or &quot;Transfer&quot; option.&#39;)
+print(&#39; - Enter the beneficiary details and amount.&#39;)
+print(&#39; - Authenticate the transaction using OTP or your transaction PIN.&#39;)
+print(&#39; - The money will be transferred instantly or within a few hours depending on the
+method.\n&#39;)
+elif choice in [&quot;4&quot;, &quot;exit&quot;, &quot;stop&quot;, &quot;quit&quot;]:
+print(&quot;\n Chatbot:Thank you for using SafeBank Virtual Assistant. Have a great day!&quot;)
+return True
+else:
+print(&quot;\n Chatbot:Invalid choice. Please select a valid option.\n&quot;)
+return False
+greet(&#39;SafeBot&#39;, &#39;2023&#39;)
+remind_name()
+
+while True:
+show_menu()
+user_choice = input(&quot;You:&quot;)
+if provide_info(user_choice):
+break
