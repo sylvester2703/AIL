@@ -1,0 +1,74 @@
+MAX = 1000
+MIN = -1000
+def minimax(depth, node_index, is_maximizing_player, values, alpha, beta):
+if depth == 3:
+return values[node_index]
+if is_maximizing_player:
+best = MIN
+for i in range(2):
+val = minimax(depth + 1, node_index * 2 + i, False, values, alpha, beta)
+best = max(best, val)
+alpha = max(alpha, best)
+print(&quot;alpha:&quot;,alpha)
+if beta &lt;= alpha:
+break
+return best
+else:
+best = MAX
+for i in range(2):
+val = minimax(depth + 1, node_index * 2 + i, True, values, alpha, beta)
+best = min(best, val)
+beta = min(beta, best)
+print(&quot;beta:&quot;,beta)
+if beta &lt;= alpha:
+break
+return best
+if __name__ == &quot;__main__&quot;:
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+optimal_value = minimax(0, 0, True, values, MIN, MAX)
+print(&quot;The optimal value is:&quot;, optimal_value)
+&quot;&quot;&quot;
+MAX, MIN = 1000, -1000
+def minimax(depth, nodeIndex, maximizingPlayer, values, alpha, beta,
+maxDepth):
+if depth == maxDepth:
+return values[nodeIndex]
+if maximizingPlayer:
+best = MIN
+for i in range(2):
+val = minimax(depth + 1, nodeIndex * 2 + i, False, values,
+alpha, beta, maxDepth)
+
+best = max(best, val)
+alpha = max(alpha, best)
+if beta &lt;= alpha: # Pruning
+break
+return best
+else:
+best = MAX
+for i in range(2):
+val = minimax(depth + 1, nodeIndex * 2 + i, True, values,
+alpha, beta, maxDepth)
+best = min(best, val)
+beta = min(beta, best)
+if beta &lt;= alpha: # Pruning
+break
+return best
+if __name__ == &quot;__main__&quot;:
+print(&quot;Alpha-Beta Pruning Demo&quot;)
+print(&quot;-&quot; * 40)
+maxDepth = int(input(&quot;Enter the depth of the game tree: &quot;))
+leaf_count = 2 ** maxDepth
+print(f&quot;\nYou must enter {leaf_count} leaf node values (space-
+separated):&quot;)
+user_input = input(&quot;&gt;&gt;&gt; &quot;).strip().split()
+values = [int(x) for x in user_input]
+if len(values) != leaf_count:
+print(f&quot;Error: You must enter exactly {leaf_count} values!&quot;)
+else:
+print(&quot;\nLeaf Node Values:&quot;, values)
+optimal_value = minimax(0, 0, True, values, MIN, MAX, maxDepth)
+print(&quot;\nThe Optimal Value (using Alpha-Beta Pruning) is:&quot;,
+optimal_value)
+
+&quot;&quot;&quot;
