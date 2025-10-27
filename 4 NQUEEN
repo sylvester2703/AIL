@@ -1,0 +1,93 @@
+def printSolution(board):
+for row in board:
+print(&quot; &quot;.join(str(cell) for cell in row))
+print()
+def isSafe(row, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+return not (sLookup[slashCode[row][col]] or bLookup[backslashCode[row][col]] or rowLookup[row])
+step_counter = 0
+def _print_step(action, row, col, board, N):
+global step_counter
+step_counter += 1
+print(f&quot;\nStep {step_counter}: {action} at (row={row}, col={col})&quot;)
+printSolution(board)
+def solveNQueensUtil(board, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+if col == len(board):
+return True
+for row in range(len(board)):
+if not isSafe(row, col, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+print(f&quot;Attempted (row={row}, col={col}) → NOT SAFE&quot;)
+continue
+board[row][col] = 1
+rowLookup[row] = True
+sLookup[slashCode[row][col]] = True
+bLookup[backslashCode[row][col]] = True
+_print_step(&quot;Placed queen&quot;, row, col, board, len(board))
+if solveNQueensUtil(board, col + 1, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+return True
+board[row][col] = 0
+rowLookup[row] = False
+sLookup[slashCode[row][col]] = False
+bLookup[backslashCode[row][col]] = False
+_print_step(&quot;Backtracked (removed queen)&quot;, row, col, board, len(board))
+return False
+def solveNQueens(N):
+board = [[0] * N for _ in range(N)]
+slashCode = [[r + c for c in range(N)] for r in range(N)]
+backslashCode = [[r - c + N - 1 for c in range(N)] for r in range(N)]
+rowLookup = [False] * N
+sLookup = [False] * (2 * N - 1)
+bLookup = [False] * (2 * N - 1)
+print(f&quot;\nSolving {N}-Queens Problem (step-by-step explanation)\n&quot;)
+if solveNQueensUtil(board, 0, slashCode, backslashCode, rowLookup, sLookup, bLookup):
+print(&quot;Final Solution Found:&quot;)
+printSolution(board)
+return True
+
+else:
+print(&quot;No solution exists for given N.&quot;)
+return False
+N = int(input(&quot;Enter the number of queens (N): &quot;))
+solveNQueens(N)
+
+“ “ “
+def read_graph():
+n = int(input(&quot;Enter number of vertices: &quot;))
+m = int(input(&quot;Enter number of edges: &quot;))
+adj = [[] for _ in range(n)]
+print(&quot;Enter edges (u v) [1-based indices, will convert to 0-based]:&quot;)
+for _ in range(m):
+u, v = map(int, input().split())
+u -= 1 # convert 1-based to 0-based
+v -= 1
+adj[u].append(v)
+adj[v].append(u)
+return adj, n
+def is_safe(v, color, c, adj):
+for u in adj[v]:
+if color[u] == c:
+return False
+return True
+def backtrack(v, adj, n, mcolor, color, min_color):
+if max(color) + 1 &gt;= min_color[0]:
+return]
+if v == n:
+used = max(color) + 1
+if used &lt; min_color[0]:
+min_color[0] = used
+print(&quot;Better coloring found:&quot;, color, &quot;with&quot;, used, &quot;colors&quot;)
+return
+for c in range(mcolor):
+if is_safe(v, color, c, adj):
+color[v] = c
+backtrack(v + 1, adj, n, mcolor, color, min_color)
+color[v] = -1
+def graph_coloring():
+adj, n = read_graph()
+color = [-1] * n
+mcolor = n # maximum possible (each vertex diff color)
+min_color = [n + 1] # track best solution found
+
+backtrack(0, adj, n, mcolor, color, min_color)
+print(&quot;\nMinimum colors needed:&quot;, min_color[0])
+graph_coloring()
+“ “ “
