@@ -1,0 +1,392 @@
+1.INFORMATION MANAGEMENT
+records = []
+def generate_id(data, prefix):
+    return f"{prefix}{len(data)+1}"
+def add_record():
+    print("\n--- Add Record ---")
+    title = input("Title of book: ").strip()
+    detail = input("Name of Author: ").strip()
+    rid = generate_id(records, "R")
+    records.append({"id": rid, "title": title, "detail": detail})
+    print(f"Record Added {rid} | {title}")
+def view_records():
+    print("\n--- Records ---")
+    if not records:
+        print("No records.")
+    else:
+        for r in records:
+            print(f"{r['id']} | {r['title']} | {r['detail']}")
+def search_record():
+    key = input("\nEnter search keyword: ").lower().strip()
+    found = [r for r in records if key in r['title'].lower() or key in r['detail'].lower()]
+    if not found:
+        print("No matches.")
+    else:
+        for f in found: print(f"{f['id']} | {f['title']}")
+def expert_advice():
+    print("\nAdvice: Organize records by book name and the author name and backup regularly.")
+def do_exit():
+    print("Exiting Book Information Management. Goodbye!")
+commands = {
+    "1": add_record, "add": add_record, "add record": add_record,
+    "2": view_records, "view": view_records, "view records": view_records,
+    "3": search_record, "search": search_record, "search record": search_record,
+    "4": expert_advice, "ai": expert_advice, "feedback": expert_advice,
+    "5": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== BOOK INFORMATION MANAGEMENT MENU =====")
+        menu_items = [
+            "1. Add Record",
+            "2. View Records",
+            "3. Search Record",
+            "4. Expert Advice",
+            "5. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print("❌ Invalid choice.")
+            continue
+        if action is do_exit:
+            action()
+            break
+        action()
+main_menu()
+
+
+2.HOSPITALS & MEDICAL FACILITIES
+patients = []
+doctors = []
+def generate_id(data, prefix):
+    return f"{prefix}{len(data)+1}"
+def add_patient():
+    print("\n--- Add Patient ---")
+    name = input("Name: ").strip()
+    age = input("Age: ").strip()
+    disease = input("Disease/Symptom: ").strip()
+    pid = generate_id(patients, "P")
+    patients.append({"id": pid, "name": name, "age": age, "disease": disease})
+    print(f"Patient {pid} added.")
+def view_patients():
+    print("\n--- Patients ---")
+    if not patients:
+        print("No patients.")
+    else:
+        for p in patients:
+            print(f"{p['id']} | {p['name']} | Age:{p['age']} | {p['disease']}")
+def add_doctor():
+    print("\n--- Add Doctor ---")
+    name = input("Name: ").strip()
+    spec = input("Specialization: ").strip()
+    did = generate_id(doctors, "D")
+    doctors.append({"id": did, "name": name, "spec": spec})
+    print(f"Doctor {did} added.")
+def view_doctors():
+    print("\n--- Doctors ---")
+    if not doctors:
+        print("No doctors.")
+    else:
+        for d in doctors:
+            print(f"{d['id']} | {d['name']} | {d['spec']}")
+def expert_feedback():
+    symptom = input("\nEnter main symptom (e.g. fever, cough): ").lower().strip()
+    if "fever" in symptom:
+        print("Possible infection — rest & fluids; consult if high fever.")
+    elif "cough" in symptom:
+        print("Could be URTI — consider warm fluids and see GP if persistent.")
+    else:
+        print("Please consult a clinician for diagnosis.")
+def do_exit():
+    print("Exiting Hospital Module. Bye!")
+commands = {
+    "1": add_patient, "add": add_patient, "add patient": add_patient,
+    "2": view_patients, "view": view_patients, "view patients": view_patients,
+    "3": add_doctor, "add doctor": add_doctor,
+    "4": view_doctors, "view doctor": view_doctors, "view doctors": view_doctors,
+    "5": expert_feedback, "ai": expert_feedback, "feedback": expert_feedback,
+    "6": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== HOSPITALS & MEDICAL MENU =====")
+        menu_items = [
+            "1. Add Patient",
+            "2. View Patients",
+            "3. Add Doctor",
+            "4. View Doctors",
+            "5. Expert Feedback",
+            "6. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print("Invalid choice.")
+            continue
+        if action is do_exit:
+            action(); break
+        action()
+main_menu()
+3. HELP DESKS MANAGEMENT
+tickets = []
+def generate_id(data, prefix):
+    return f"{prefix}{len(data)+1}"
+def create_ticket():
+    print("\n--- Create Ticket ---")
+    user = input("User name: ").strip()
+    issue = input("Issue summary: ").strip()
+    tid = generate_id(tickets, "T")
+    tickets.append({"id": tid, "user": user, "issue": issue, "status": "Open"})
+    print(f"Ticket {tid} created.")
+def view_tickets():
+    print("\n--- Tickets ---")
+    if not tickets:
+        print("No tickets.")
+    else:
+        for t in tickets:
+            print(f"{t['id']} | {t['user']} | {t['issue']} | {t['status']}")
+def resolve_ticket():
+    tid = input("\nEnter ticket ID to resolve: ").upper().strip()
+    for t in tickets:
+        if t['id'] == tid:
+            t['status'] = "Resolved"
+            print(f"Ticket {tid} resolved.")
+            return
+    print("Ticket not found.")
+def pending_tickets():
+    pend = [t for t in tickets if t['status'] == "Open"]
+    if not pend:
+        print("No pending tickets.")
+    else:
+        for p in pend:
+            print(f"{p['id']} | {p['user']} | {p['issue']}")
+def expert_tip():
+    print("\nTip: Triage by impact & urgency; keep users updated frequently.")
+def do_exit():
+    print("Exiting Helpdesk Module.")
+commands = {
+    "1": create_ticket, "add": create_ticket, "create ticket": create_ticket,
+    "2": view_tickets, "view": view_tickets, "view tickets": view_tickets,
+    "3": resolve_ticket, "resolve": resolve_ticket, "close ticket": resolve_ticket,
+    "4": pending_tickets, "pending": pending_tickets,
+    "5": expert_tip, "ai": expert_tip, "feedback": expert_tip,
+    "6": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== HELP DESK MENU =====")
+        menu_items = [
+            "1. Create Ticket",
+            "2. View Tickets",
+            "3. Resolve Ticket",
+            "4. Pending Tickets",
+            "5. Expert Tip",
+            "6. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print(" Invalid choice."); continue
+        if action is do_exit:
+            action(); break
+        action()
+main_menu()
+
+4. EMPLOYEE PERFORMANCE EVALUATION
+employees = []
+def generate_id(data, prefix):
+    return f"{prefix}{len(data)+1}"
+def add_employee():
+    print("\n--- Add Employee ---")
+    name = input("Name: ").strip()
+    try:
+        score = float(input("KPI score (0-100): ").strip())
+    except Exception:
+        print("Invalid score."); return
+    eid = generate_id(employees, "E")
+    employees.append({"id": eid, "name": name, "score": score})
+    print(f"Employee {eid} added.")
+def view_employees():
+    print("\n--- Employees ---")
+    if not employees:
+        print("No employees.")
+    else:
+        for e in employees:
+            print(f"{e['id']} | {e['name']} | Score: {e['score']}")
+def evaluate():
+    name = input("\nEnter employee name to evaluate: ").strip().lower()
+    for e in employees:
+        if e['name'].lower() == name:
+            s = e['score']
+            if s >= 85: print(" Rating: Outstanding")
+            elif s >= 60: print(" Rating: Meets expectations")
+            else: print(" Rating: Needs improvement")
+            return
+    print("Employee not found.")
+def top_performer():
+    if not employees:
+        print("No data.")
+    else:
+        top = max(employees, key=lambda x: x['score'])
+        print(f"Top: {top['name']} ({top['score']})")
+def expert_tip():
+    print("\nTip: Use regular feedback and measurable KPIs.")
+def do_exit():
+    print("Exiting Employee Module.")
+commands = {
+    "1": add_employee, "add": add_employee, "add employee": add_employee,
+    "2": view_employees, "view": view_employees, "view employees": view_employees,
+    "3": evaluate, "evaluate": evaluate, "assess": evaluate,
+    "4": top_performer, "top": top_performer,
+    "5": expert_tip, "ai": expert_tip, "feedback": expert_tip,
+    "6": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== EMPLOYEE PERFORMANCE MENU =====")
+        menu_items = [
+            "1. Add Employee",
+            "2. View Employees",
+            "3. Evaluate Employee",
+            "4. Top Performer",
+            "5. Expert Tip",
+            "6. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print("Invalid choice."); continue
+        if action is do_exit:
+            action(); break
+        action()
+main_menu()
+
+5. STOCK MARKET TRADING
+watchlist = []
+def add_stock():
+    print("\n--- Add Stock ---")
+    sym = input("Ticker: ").strip().upper()
+    try:
+        price = float(input("Price: ").strip())
+    except Exception:
+        print("Invalid price."); return
+    watchlist.append({"sym": sym, "price": price})
+    print(f"{sym} added at {price}")
+def view_watchlist():
+    print("\n--- Watchlist ---")
+    if not watchlist:
+        print("Empty.")
+    else:
+        for w in watchlist:
+            print(f"{w['sym']} | ₹{w['price']}")
+def highest():
+    if not watchlist:
+        print("No data.")
+    else:
+        h = max(watchlist, key=lambda x: x['price'])
+        print(f"Highest: {h['sym']} ₹{h['price']}")
+def lowest():
+    if not watchlist:
+        print("No data.")
+    else:
+        l = min(watchlist, key=lambda x: x['price'])
+        print(f" Lowest: {l['sym']} ₹{l['price']}")
+def expert_tip():
+    print("\n Tip: Diversify and use stop-loss to manage risk.")
+def do_exit():
+    print("Exiting Trading Module.")
+commands = {
+    "1": add_stock, "add": add_stock, "add stock": add_stock,
+    "2": view_watchlist, "view": view_watchlist, "view stocks": view_watchlist,
+    "3": highest, "high": highest, "highest": highest,
+    "4": lowest, "low": lowest, "lowest": lowest,
+    "5": expert_tip, "ai": expert_tip, "feedback": expert_tip,
+    "6": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== STOCK MARKET MENU =====")
+        menu_items = [
+            "1. Add Stock",
+            "2. View Watchlist",
+            "3. Highest Stock",
+            "4. Lowest Stock",
+            "5. Expert Tip",
+            "6. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print(" Invalid choice."); continue
+        if action is do_exit:
+            action(); break
+        action()
+main_menu()
+
+6. AIRLINE SCHEDULING & CARGO
+flights = []
+def add_flight():
+    print("\n--- Add Flight ---")
+    fid = input("Flight ID: ").strip().upper()
+    dest = input("Destination: ").strip()
+    time = input("Departure time: ").strip()
+    flights.append({"fid": fid, "dest": dest, "time": time})
+    print(f"Flight {fid} -> {dest} added.")
+def view_flights():
+    print("\n--- Flights ---")
+    if not flights:
+        print("No flights.")
+    else:
+        for f in flights:
+            print(f"{f['fid']} | {f['dest']} | {f['time']}")
+def search_flight():
+    key = input("Enter destination keyword: ").lower().strip()
+    found = [f for f in flights if key in f['dest'].lower()]
+    if not found:
+        print("No flights found.")
+    else:
+        for ff in found: print(f"{ff['fid']} | {ff['dest']} | {ff['time']}")
+def cancel_flight():
+    fid = input("Enter Flight ID to cancel: ").upper().strip()
+    global flights
+    flights = [f for f in flights if f['fid'] != fid]
+    print(f"Flight {fid} cancelled (if existed).")
+def expert_tip():
+    print("\nTip: Balance schedule to minimize turnaround time and maximize cargo yield.")
+def do_exit():
+    print("Exiting Airline Module.")
+commands = {
+    "1": add_flight, "add": add_flight, "add flight": add_flight,
+    "2": view_flights, "view": view_flights, "view flights": view_flights,
+    "3": search_flight, "search": search_flight, "find": search_flight,
+    "4": cancel_flight, "cancel": cancel_flight,
+    "5": expert_tip, "ai": expert_tip, "feedback": expert_tip,
+    "6": do_exit, "stop": do_exit, "quit": do_exit, "exit": do_exit
+}
+def main_menu():
+    while True:
+        print("\n===== AIRLINE & CARGO MENU =====")
+        menu_items = [
+            "1. Add Flight",
+            "2. View Flights",
+            "3. Search Flight",
+            "4. Cancel Flight",
+            "5. Expert Tip",
+            "6. Exit"
+        ]
+        for it in menu_items: print(it)
+        choice = input("\nEnter option number or command: ").lower().strip()
+        action = commands.get(choice)
+        if action is None:
+            print(" Invalid choice."); continue
+        if action is do_exit:
+            action(); break
+        action()
+main_menu()
+
